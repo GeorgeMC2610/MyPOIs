@@ -1,39 +1,38 @@
 package com.georg.mypois;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import java.time.LocalDateTime;
 
 public class MainActivity extends AppCompatActivity
 {
-    ScrollView pois;
-    CardView sampleCardView;
-    TextView text1;
+    POIsDatabaseManager poIsDatabaseManager;
+    private SQLiteDatabase DB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DB = openOrCreateDatabase("myPOIS.db", MODE_PRIVATE, null);
 
-        pois = findViewById(R.id.poi_scrollview);
-        sampleCardView = findViewById(R.id.SampleCardView);
-        text1 = findViewById(R.id.text1);
+        poIsDatabaseManager = new POIsDatabaseManager(DB);
     }
 
-    private View cardViewCreator()
+    public void buttonAddNewClicked(View view)
     {
-        CardView cardView = new CardView(getApplicationContext());
-        cardView = sampleCardView;
-        return cardView;
+        Intent intent = new Intent(this, ActivityAdd.class);
+        startActivity(intent);
     }
 
-    public void AddPOI(View view)
+    public void buttonDeleteClicked(View view)
     {
-        CardView cardView = new CardView(this);
+
     }
 }
