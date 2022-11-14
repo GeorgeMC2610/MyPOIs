@@ -6,20 +6,38 @@ import java.time.LocalDateTime;
 
 public class POI
 {
+    private int id;
     private String name;
     private LocalDateTime timeStamp;
-    private Location location;
+    private double latitude;
+    private double longitude;
     private String category;
     private String description;
 
-    public POI(String name, LocalDateTime timeStamp, Location location, String category, String description)
+    public POI(String name, LocalDateTime timeStamp, double latitude, double longitude, String category, String description)
     {
+        this.id = -1;
         this.name = name;
         this.timeStamp = timeStamp;
-        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.category = category;
         this.description = description;
     }
+
+    public POI(int id, String name, LocalDateTime timeStamp, double latitude, double longitude, String category, String description)
+    {
+        this.id = id;
+        this.name = name;
+        this.timeStamp = timeStamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.category = category;
+        this.description = description;
+    }
+
+    //ID
+    public int getId() {return id;}
 
     //NAME
     public String getName()
@@ -43,15 +61,26 @@ public class POI
         this.timeStamp = timeStamp;
     }
 
-    //LOCATION
-    public Location getLocation()
+    //LATITUDE
+    public double getLatitude()
     {
-        return location;
+        return latitude;
     }
 
-    public void setLocation(Location location)
+    public void setLocation(double latitude)
     {
-        this.location = location;
+        this.latitude = latitude;
+    }
+
+    //LONGITUDE
+    public double getLongitude()
+    {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude)
+    {
+        this.longitude = longitude;
     }
 
     //CATEGORY

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DisplayPOIs">
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="159dp"
+        android:layout_height="31dp"
+        android:fontFamily="sans-serif-light"
+        android:text="#id"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191" />
+
+    <TextView
+        android:id="@+id/Counter"
+        android:layout_width="122dp"
+        android:layout_height="45dp"
+        android:fontFamily="sans-serif-black"
+        android:text="x of y"
+        android:textAlignment="viewStart"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.103" />
+
+    <TextView
+        android:id="@+id/Description"
+        android:layout_width="358dp"
+        android:layout_height="156dp"
+        android:fontFamily="sans-serif-light"
+        android:text="A nice description."
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <TextView
+        android:id="@+id/Category"
+        android:layout_width="295dp"
+        android:layout_height="43dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Category"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonNext"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:isScrollContainer="false"
+        android:onClick="buttonNextClicked"
+        android:rotation="-90"
+        android:textAlignment="center"
+        android:tooltipText="Go To Previous"
+        android:visibility="visible"
+        app:backgroundTint="@color/purple_700"
+        app:elevation="6dp"
+        app:fabCustomSize="43dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.991"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        app:maxImageSize="24dp"
+        app:pressedTranslationZ="6dp"
+        app:srcCompat="@android:drawable/arrow_down_float"
+        app:useCompatPadding="false" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonPrevious"
+        android:layout_width="54dp"
+        android:layout_height="43dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:isScrollContainer="false"
+        android:onClick="buttonPreviousClicked"
+        android:rotation="90"
+        android:textAlignment="center"
+        android:tooltipText="Go To Previous"
+        android:visibility="visible"
+        app:backgroundTint="@color/purple_700"
+        app:elevation="6dp"
+        app:fabCustomSize="43dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.013"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="24dp"
+        app:pressedTranslationZ="6dp"
+        app:srcCompat="@android:drawable/arrow_down_float"
+        app:useCompatPadding="false" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="161dp"
+        android:layout_height="67dp"
+        android:backgroundTint="#E40000"
+        android:onClick="buttonDeleteClicked"
+        android:text="DELETE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="161dp"
+        android:layout_height="67dp"
+        android:text="EDIT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.936"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="410dp"
+        android:layout_height="60dp"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="1dp" />
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="295dp"
+        android:layout_height="43dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Title of P.O.I."
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.239" />
+
+    <TextView
+        android:id="@+id/Time"
+        android:layout_width="359dp"
+        android:layout_height="45dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Captured: at time."
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.364" />
+
+    <TextView
+        android:id="@+id/Location"
+        android:layout_width="372dp"
+        android:layout_height="40dp"
+        android:fontFamily="sans-serif-light"
+        android:text="At: latitude, longitude"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.302" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

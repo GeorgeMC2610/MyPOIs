@@ -3,8 +3,12 @@ package com.georg.mypois;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
+import android.location.LocationManager;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class POIsDatabaseManager
@@ -24,6 +28,16 @@ public class POIsDatabaseManager
                 "description TEXT)");
     }
 
+    public int getCountOfPOIS()
+    {
+        String query = "SELECT COUNT(id) FROM POIS";
+        Cursor cursor = DB.rawQuery(query, null);
+        if (!cursor.moveToFirst())
+            return 0;
+
+        return cursor.getInt(0);
+    }
+
     public void AddPOI(POI poi)
     {
         // initialize values
@@ -38,14 +52,46 @@ public class POIsDatabaseManager
         timeStamp = poi.getTimeStamp();
         category = poi.getCategory();
         description = poi.getDescription();
-        latitude = poi.getLocation().getLatitude();
-        longitude = poi.getLocation().getLongitude();
+        latitude = poi.getLatitude();
+        longitude = poi.getLongitude();
 
         //
         String query = "INSERT INTO POIS VALUES (?, ?, ?, ?, ?, ?, ?)";
         Object[] bindArgs = new Object[]{GenerateID(), name, timeStamp, latitude, longitude, category, description};
 
         DB.execSQL(query, bindArgs);
+    }
+
+    public void DeletePOI(int id)
+    {
+        String query = "DELETE FROM POIS WHERE ID = ?";
+        Object[] bindArgs = new Object[]{id};
+
+        DB.execSQL(query, bindArgs);
+    }
+
+    public ArrayList<POI> GetAllPois()
+    {
+        ArrayList<POI> pois = new ArrayList<>();
+
+        String query = "SELECT * FROM POIS";
+        Cursor cursor = DB.rawQuery(query, null);
+
+        while (cursor.moveToNext())
+        {
+            int id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String timeStamp = cursor.getString(2);
+            double latitude = cursor.getDouble(3);
+            double longitude = cursor.getDouble(4);
+            String category = cursor.getString(5);
+            String description = cursor.getString(6);
+
+            POI poi = new POI(id, title, LocalDateTime.parse(timeStamp), latitude, longitude, category, description);
+            pois.add(poi);
+        }
+
+        return pois;
     }
 
     private int GenerateID()
