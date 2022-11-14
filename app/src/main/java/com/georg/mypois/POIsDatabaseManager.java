@@ -55,7 +55,7 @@ public class POIsDatabaseManager
         latitude = poi.getLatitude();
         longitude = poi.getLongitude();
 
-        //
+        // use bindArgs to insert values.
         String query = "INSERT INTO POIS VALUES (?, ?, ?, ?, ?, ?, ?)";
         Object[] bindArgs = new Object[]{GenerateID(), name, timeStamp, latitude, longitude, category, description};
 

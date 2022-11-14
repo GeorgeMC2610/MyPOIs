@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 public class POI
 {
+    public static String[] Categories = {"Home", "Work", "University", "Studying Place", "Café", "Library", "Parking", "One-time Parking Spot", "Sports"};
+
     private int id;
     private String name;
     private LocalDateTime timeStamp;

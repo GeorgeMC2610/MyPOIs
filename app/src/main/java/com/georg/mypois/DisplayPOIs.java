@@ -118,4 +118,9 @@ public class DisplayPOIs extends AppCompatActivity
         });
         builder.show();
     }
+
+    public void buttonEditClicked(View view)
+    {
+
+    }
 }

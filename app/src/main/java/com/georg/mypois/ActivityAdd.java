@@ -50,12 +50,9 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener {
         }
 
         // all this just to add some items on a spinner?!
-        String[] categories = new String[] {"Home", "Work", "University", "Studying Place", "Café", "Library", "Parking", "One-time Parking Spot", "Sports"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, POI.Categories); // this is retrieved from a static field.
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoriesSpinner.setAdapter(adapter);
-
-
     }
 
     public void buttonInsertClicked(View view)
