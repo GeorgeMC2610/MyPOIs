@@ -100,7 +100,7 @@ public class DisplayPOIs extends AppCompatActivity
                 MainActivity.poIsDatabaseManager.DeletePOI(Pois.get(index).getId());
                 Pois = MainActivity.poIsDatabaseManager.GetAllPois();
 
-                if (Pois.isEmpty())
+                if (Pois.isEmpty() || Pois.size() == 1)
                     index = 0;
                 else if (index > Pois.size())
                     index = Pois.size() - 1;
