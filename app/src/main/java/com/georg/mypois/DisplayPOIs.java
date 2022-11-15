@@ -91,21 +91,24 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
 
     }
 
-    // this method removes a
+    // adjusting the index with the button. (Minus one)
     public void buttonPreviousClicked(View view)
     {
         index--;
         UpdateLabels();
     }
 
+    // adjusting the index with the button. (Plus one)
     public void buttonNextClicked(View view)
     {
         index++;
         UpdateLabels();
     }
 
+    // this is called when the delete button is pressed.
     public void buttonDeleteClicked(View view)
     {
+        // build a confirmation dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Confirm Delete");
@@ -184,6 +187,7 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
     @Override
     public boolean onQueryTextChange(String s)
     {
+        index = 0;
         Pois = (s.isEmpty())? MainActivity.poIsDatabaseManager.GetAllPois() : MainActivity.poIsDatabaseManager.SearchPoiByTitle(s);
         UpdateLabels();
 

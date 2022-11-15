@@ -79,7 +79,7 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Duplicate Found.");
-            builder.setMessage("There is already a P.O.I. with the Title \"" + title.getText().toString() + "\"." +
+            builder.setMessage("There is already a P.O.I. with the Title \"" + title.getText().toString() + "\". " +
                     "It is allowed to have multiple P.O.I.s with identical titles. Are you sure you want to proceed?");
             builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
             {
