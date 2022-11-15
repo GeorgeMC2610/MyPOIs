@@ -1,10 +1,12 @@
 package com.georg.mypois;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,7 +20,8 @@ import android.widget.Toast;
 
 import java.time.LocalDateTime;
 
-public class ActivityAdd extends AppCompatActivity implements LocationListener {
+public class ActivityAdd extends AppCompatActivity implements LocationListener
+{
     LocationManager locationManager;
     Location currentLocation;
     Spinner categoriesSpinner;
@@ -71,6 +74,34 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener {
             return;
         }
 
+        // Inform the user for duplicates.
+        if (!MainActivity.poIsDatabaseManager.SearchPoiByTitle(title.getText().toString()).isEmpty())
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Duplicate Found.");
+            builder.setMessage("There is already a P.O.I. with the Title \"" + title.getText().toString() + "\"." +
+                    "It is allowed to have multiple P.O.I.s with identical titles. Are you sure you want to proceed?");
+            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+
+                }
+            });
+            builder.setPositiveButton("ADD ANYWAY", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    addPoiToDatabase();
+                }
+            });
+
+            builder.show();
+            return;
+        }
+
         // sometimes the current location can be null.
         if (this.currentLocation == null)
         {
@@ -79,6 +110,11 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener {
         }
 
         // try to insert it in the database.
+        addPoiToDatabase();
+    }
+
+    private void addPoiToDatabase()
+    {
         try
         {
             POI newPOI = new POI(title.getText().toString(), LocalDateTime.now(), currentLocation.getLatitude(), currentLocation.getLongitude(), categoriesSpinner.getSelectedItem().toString(), description.getText().toString());

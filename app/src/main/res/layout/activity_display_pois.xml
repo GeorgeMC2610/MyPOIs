@@ -149,7 +149,6 @@
         android:id="@+id/searchPoiByTitle"
         android:layout_width="410dp"
         android:layout_height="60dp"
-        android:onClick="searchViewClicked"
         android:queryHint="Search by title..."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

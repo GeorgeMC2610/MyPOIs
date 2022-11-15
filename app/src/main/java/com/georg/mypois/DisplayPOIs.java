@@ -115,9 +115,12 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
             @Override
             public void onClick(DialogInterface dialogInterface, int i)
             {
+                // if the user agrees to delete the POI, find the POI using its ID and delete it.
                 MainActivity.poIsDatabaseManager.DeletePOI(Pois.get(index).getId());
+                // then update all POIs.
                 Pois = MainActivity.poIsDatabaseManager.GetAllPois();
 
+                // adjust the index if it's out of bounds.
                 if (Pois.isEmpty() || Pois.size() == 1)
                     index = 0;
                 else if (index > Pois.size())
@@ -170,11 +173,6 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
             }
         });
         builder.show();
-    }
-
-    public void searchViewClicked(View view)
-    {
-
     }
 
     @Override
