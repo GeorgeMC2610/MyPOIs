@@ -146,11 +146,16 @@
         app:layout_constraintVertical_bias="0.975" />
 
     <SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/searchPoiByTitle"
         android:layout_width="410dp"
         android:layout_height="60dp"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="1dp" />
+        android:onClick="searchViewClicked"
+        android:queryHint="Search by title..."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.004" />
 
     <TextView
         android:id="@+id/Title"

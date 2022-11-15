@@ -6,17 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class DisplayPOIs extends AppCompatActivity
+public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQueryTextListener
 {
     TextView id, title, location, timeStamp, category, description, counter;
     FloatingActionButton buttonPrevious, buttonNext;
     ArrayList<POI> Pois;
+    SearchView searchPoiByTitle;
     int index = 0;
 
     @Override
@@ -25,6 +30,7 @@ public class DisplayPOIs extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_pois);
 
+        //TextViews
         id = findViewById(R.id.id);
         title = findViewById(R.id.Title);
         location = findViewById(R.id.Location);
@@ -33,21 +39,31 @@ public class DisplayPOIs extends AppCompatActivity
         description = findViewById(R.id.Description);
         counter = findViewById(R.id.Counter);
 
+        //Database
         Pois = MainActivity.poIsDatabaseManager.GetAllPois();
 
+        //Buttons
         buttonPrevious = findViewById(R.id.buttonPrevious);
         buttonNext = findViewById(R.id.buttonNext);
 
+        //SearchView
+        searchPoiByTitle = findViewById(R.id.searchPoiByTitle);
+        searchPoiByTitle.setOnQueryTextListener(this);
+
+        //Disable the "previous" button (since the starting index is 0).
         buttonPrevious.setVisibility(FloatingActionButton.INVISIBLE);
 
+        //Disable the "next" button if the are no POIs available.
         if (Pois.isEmpty())
             buttonNext.setVisibility(FloatingActionButton.INVISIBLE);
 
         UpdateLabels();
     }
 
+    // this method updates all labels once a button is clicked.
     private void UpdateLabels()
     {
+        // if there are no POIs available, it shows a message to the user.
         if (index == 0 && Pois.isEmpty())
         {
             id.setText("---");
@@ -60,6 +76,7 @@ public class DisplayPOIs extends AppCompatActivity
             return;
         }
 
+        // otherwise it shows all information about a POI.
         id.setText(String.valueOf(Pois.get(index).getId()));
         title.setText(Pois.get(index).getName());
         location.setText("At: " + String.valueOf(Pois.get(index).getLatitude()) + ", " + String.valueOf(Pois.get(index).getLatitude()));
@@ -74,6 +91,7 @@ public class DisplayPOIs extends AppCompatActivity
 
     }
 
+    // this method removes a
     public void buttonPreviousClicked(View view)
     {
         index--;
@@ -113,7 +131,7 @@ public class DisplayPOIs extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i)
             {
-                //DO NOTHING.
+                // DO NOTHING.
             }
         });
         builder.show();
@@ -121,6 +139,56 @@ public class DisplayPOIs extends AppCompatActivity
 
     public void buttonEditClicked(View view)
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Edit Fields.");
+        builder.setMessage("Please enter the fields you want to edit.");
 
+        final EditText editTitle = new EditText(this);
+        builder.setView(editTitle);
+
+        final Spinner editCategory = new Spinner(this);
+        builder.setView(editCategory);
+
+        final EditText description = new EditText(this);
+        builder.setView(description);
+
+        builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                // EDIT FIELDS.
+            }
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                // DO NOTHING.
+            }
+        });
+        builder.show();
+    }
+
+    public void searchViewClicked(View view)
+    {
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s)
+    {
+        Pois = (s.isEmpty())? MainActivity.poIsDatabaseManager.GetAllPois() : MainActivity.poIsDatabaseManager.SearchPoiByTitle(s);
+        UpdateLabels();
+
+        return false;
     }
 }
