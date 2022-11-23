@@ -126,7 +126,7 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
                 // adjust the index if it's out of bounds.
                 if (Pois.isEmpty() || Pois.size() == 1)
                     index = 0;
-                else if (index > Pois.size())
+                else if (index >= Pois.size())
                     index = Pois.size() - 1;
 
                 UpdateLabels();

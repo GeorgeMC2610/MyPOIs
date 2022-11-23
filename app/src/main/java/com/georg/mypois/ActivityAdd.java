@@ -110,10 +110,14 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         }
 
         // try to insert it in the database.
-        addPoiToDatabase();
+         if (addPoiToDatabase())
+         {
+             title.setText("");
+             description.setText("");
+         }
     }
 
-    private void addPoiToDatabase()
+    private boolean addPoiToDatabase()
     {
         try
         {
@@ -122,10 +126,12 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
                 MainActivity.poIsDatabaseManager.AddPOI(newPOI);
 
             Toast.makeText(this, "New Point Of Interest successfully inserted!", Toast.LENGTH_SHORT).show();
+            return true;
         }
         catch (Exception e)
         {
             description.setText(e.getMessage());
+            return false;
         }
     }
 
