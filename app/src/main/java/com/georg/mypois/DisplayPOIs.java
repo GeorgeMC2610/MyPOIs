@@ -3,9 +3,12 @@ package com.georg.mypois;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -150,14 +153,15 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
         builder.setTitle("Edit Fields.");
         builder.setMessage("Please enter the fields you want to edit.");
 
-        final EditText editTitle = new EditText(this);
-        builder.setView(editTitle);
+        LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.edit_properties, null);
 
-        final Spinner editCategory = new Spinner(this);
-        builder.setView(editCategory);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, POI.Categories); // this is retrieved from a static field.
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner categories = v.findViewById(R.id.spinner2);
+        categories.setAdapter(adapter);
 
-        final EditText description = new EditText(this);
-        builder.setView(description);
+        builder.setView(v);
 
         builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener()
         {
