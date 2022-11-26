@@ -33,6 +33,8 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_pois);
 
+        Pois = MainActivity.poIsDatabaseManager.GetAllPois();
+
         //TextViews
         id = findViewById(R.id.id);
         title = findViewById(R.id.Title);
@@ -41,9 +43,6 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
         category = findViewById(R.id.Category);
         description = findViewById(R.id.Description);
         counter = findViewById(R.id.Counter);
-
-        //Database
-        Pois = MainActivity.poIsDatabaseManager.GetAllPois();
 
         //Buttons
         buttonPrevious = findViewById(R.id.buttonPrevious);
@@ -66,6 +65,8 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
     // this method updates all labels once a button is clicked.
     private void UpdateLabels()
     {
+        Pois = MainActivity.poIsDatabaseManager.GetAllPois();
+
         // if there are no POIs available, it shows a message to the user.
         if (index == 0 && Pois.isEmpty())
         {
@@ -148,14 +149,17 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
 
     public void buttonEditClicked(View view)
     {
+        // create an alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Edit Fields.");
         builder.setMessage("Please enter the fields you want to edit.");
 
+        // inflate the views and put them in the dialog
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.edit_properties, null);
 
+        // create the spinner so it has all the different categories
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, POI.Categories); // this is retrieved from a static field.
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner categories = v.findViewById(R.id.spinner2);
@@ -163,12 +167,34 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
 
         builder.setView(v);
 
+        // this is for toast.
+        Context context = this;
+
+        // in case the
         builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialogInterface, int i)
             {
-                // EDIT FIELDS.
+                // get the views' values
+                EditText Title = v.findViewById(R.id.newTitle);
+                EditText Description = v.findViewById(R.id.newDescription);
+
+                int edit_id = Integer.parseInt(id.getText().toString());
+                String newTitle = Title.getText().toString();
+                String newCategory = categories.getSelectedItem().toString();
+                String newDescription = Description.getText().toString();
+
+                // and if any of them are empty, abort editing.
+                if (newTitle.isEmpty() || newDescription.isEmpty())
+                {
+                    Toast.makeText(context, "Aborting edit, fields are empty.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // if not, update the labels.
+                MainActivity.poIsDatabaseManager.EditPOI(edit_id, newTitle, newCategory, newDescription);
+                UpdateLabels();
             }
         });
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
