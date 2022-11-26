@@ -74,6 +74,17 @@ public class POIsDatabaseManager
         DB.execSQL(query, bindArgs);
     }
 
+    // edits a POI through its ID.
+    public void EditPOI(int id, String newTitle, String newCategory, String newDescription)
+    {
+        String query = "UPDATE POIS " +
+                "SET name = ?, category = ?, description = ? " +
+                "WHERE id = ?";
+
+        Object[] bindArgs = new Object[]{newTitle, newCategory, newDescription, id};
+        DB.execSQL(query, bindArgs);
+    }
+
     // gets all POIS with select * statement.
     public ArrayList<POI> GetAllPois()
     {
