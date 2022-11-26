@@ -178,15 +178,9 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
 
         // also se the spinner to be selected with the editing item
         Hashtable<String, Integer> spinner_dictionary = new Hashtable<String, Integer>();
-        spinner_dictionary.put(POI.Categories[0], 0);
-        spinner_dictionary.put(POI.Categories[1], 1);
-        spinner_dictionary.put(POI.Categories[2], 2);
-        spinner_dictionary.put(POI.Categories[3], 3);
-        spinner_dictionary.put(POI.Categories[4], 4);
-        spinner_dictionary.put(POI.Categories[5], 5);
-        spinner_dictionary.put(POI.Categories[6], 6);
-        spinner_dictionary.put(POI.Categories[7], 7);
-        spinner_dictionary.put(POI.Categories[8], 8);
+
+        for (int i = 0; i < 9; i++)
+            spinner_dictionary.put(POI.Categories[i], i);
 
         categories.setSelection(spinner_dictionary.get(category.getText().toString()));
 
@@ -195,7 +189,7 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
         // this is for toast.
         Context context = this;
 
-        // in case the
+        // in case the user hits confirm
         builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener()
         {
             @Override
@@ -218,6 +212,8 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
                 UpdateLabels("");
             }
         });
+
+        // in case the user hits "cancel"
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
         {
             @Override

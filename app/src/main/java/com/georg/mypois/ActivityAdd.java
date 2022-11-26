@@ -136,6 +136,7 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         }
     }
 
+    // function to check if there is any field empty
     private boolean isAnyEditTextEmpty()
     {
         title.setText(title.getText().toString().trim());
