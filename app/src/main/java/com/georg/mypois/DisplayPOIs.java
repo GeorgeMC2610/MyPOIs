@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQueryTextListener
 {
@@ -59,13 +61,13 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
         if (Pois.isEmpty())
             buttonNext.setVisibility(FloatingActionButton.INVISIBLE);
 
-        UpdateLabels();
+        UpdateLabels("");
     }
 
     // this method updates all labels once a button is clicked.
-    private void UpdateLabels()
+    private void UpdateLabels(String query)
     {
-        Pois = MainActivity.poIsDatabaseManager.GetAllPois();
+        Pois = (query.isEmpty()? MainActivity.poIsDatabaseManager.GetAllPois() : MainActivity.poIsDatabaseManager.SearchPoiByTitle(query));
 
         // if there are no POIs available, it shows a message to the user.
         if (index == 0 && Pois.isEmpty())
@@ -99,14 +101,14 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
     public void buttonPreviousClicked(View view)
     {
         index--;
-        UpdateLabels();
+        UpdateLabels("");
     }
 
     // adjusting the index with the button. (Plus one)
     public void buttonNextClicked(View view)
     {
         index++;
-        UpdateLabels();
+        UpdateLabels("");
     }
 
     // this is called when the delete button is pressed.
@@ -133,7 +135,7 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
                 else if (index >= Pois.size())
                     index = Pois.size() - 1;
 
-                UpdateLabels();
+                UpdateLabels("");
             }
         });
 
@@ -159,11 +161,33 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
         LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.edit_properties, null);
 
+        // get the views
+        EditText Title = v.findViewById(R.id.newTitle);
+        EditText Description = v.findViewById(R.id.newDescription);
+
+        // set the view's values to be pre-set
+        Title.setText(title.getText().toString());
+        Description.setText(description.getText().toString());
+
         // create the spinner so it has all the different categories
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, POI.Categories); // this is retrieved from a static field.
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner categories = v.findViewById(R.id.spinner2);
         categories.setAdapter(adapter);
+
+        // also se the spinner to be selected with the editing item
+        Hashtable<String, Integer> spinner_dictionary = new Hashtable<String, Integer>();
+        spinner_dictionary.put(POI.Categories[0], 0);
+        spinner_dictionary.put(POI.Categories[1], 1);
+        spinner_dictionary.put(POI.Categories[2], 2);
+        spinner_dictionary.put(POI.Categories[3], 3);
+        spinner_dictionary.put(POI.Categories[4], 4);
+        spinner_dictionary.put(POI.Categories[5], 5);
+        spinner_dictionary.put(POI.Categories[6], 6);
+        spinner_dictionary.put(POI.Categories[7], 7);
+        spinner_dictionary.put(POI.Categories[8], 8);
+
+        categories.setSelection(spinner_dictionary.get(category.getText().toString()));
 
         builder.setView(v);
 
@@ -176,10 +200,6 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
             @Override
             public void onClick(DialogInterface dialogInterface, int i)
             {
-                // get the views' values
-                EditText Title = v.findViewById(R.id.newTitle);
-                EditText Description = v.findViewById(R.id.newDescription);
-
                 int edit_id = Integer.parseInt(id.getText().toString());
                 String newTitle = Title.getText().toString();
                 String newCategory = categories.getSelectedItem().toString();
@@ -194,7 +214,7 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
 
                 // if not, update the labels.
                 MainActivity.poIsDatabaseManager.EditPOI(edit_id, newTitle, newCategory, newDescription);
-                UpdateLabels();
+                UpdateLabels("");
             }
         });
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
@@ -218,8 +238,7 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
     public boolean onQueryTextChange(String s)
     {
         index = 0;
-        Pois = (s.isEmpty())? MainActivity.poIsDatabaseManager.GetAllPois() : MainActivity.poIsDatabaseManager.SearchPoiByTitle(s);
-        UpdateLabels();
+        UpdateLabels(s);
 
         return false;
     }
