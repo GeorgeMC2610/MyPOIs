@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="368dp"
+        android:layout_height="93dp"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/poi_title"
+                android:layout_width="222dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8sp"
+                android:layout_marginTop="8sp"
+                android:layout_marginEnd="8sp"
+                android:layout_marginBottom="8sp"
+                android:text="Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/poi_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="36sp"
+                android:text="Category"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/poi_date_time_captured"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="60sp"
+                android:text="Date Time Captured"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#717171"
+                android:textSize="12sp">
+
+            </TextView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/buttonDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="74dp"
+                android:layout_marginBottom="21dp"
+                android:clickable="true"
+                app:backgroundTint="#FF0000"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/buttonEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="9dp"
+                android:layout_marginBottom="21dp"
+                android:clickable="true"
+                app:backgroundTint="#3B89FF"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
