@@ -14,12 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
     public static POIsDatabaseManager poIsDatabaseManager;
     private SQLiteDatabase DB;
-    TextView numberOfPOIS;
+    ArrayList<POI> POIS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,55 +31,19 @@ public class MainActivity extends AppCompatActivity
         DB = openOrCreateDatabase("myPOIS.db", MODE_PRIVATE, null);
         poIsDatabaseManager = new POIsDatabaseManager(DB);
 
-        numberOfPOIS = findViewById(R.id.textViewCountPOIS);
+        POIS = poIsDatabaseManager.GetAllPois();
+    }
 
+    private void CreatePOIcards()
+    {
 
-        String POIS;
-        int numberOfPois = poIsDatabaseManager.getCountOfPOIS();
-        switch(numberOfPois)
-        {
-            case 0:
-                POIS = "No P.O.I.s yet! Add yours now, by clicking the button below.";
-                break;
-            case 1:
-                POIS = "One P.O.I. available.";
-                break;
-            default:
-                POIS = numberOfPois + " P.O.I.s available.";
-                break;
-        }
-
-        numberOfPOIS.setText(POIS);
     }
 
     // green button clicked
-    public void buttonAddNewClicked(View view)
+    public void buttonAddClicked(View view)
     {
-        try
-        {
-            Intent intent = new Intent(this, ActivityAdd.class);
-            startActivity(intent);
-        }
-        catch (Exception e)
-        {
-            TextView textView = findViewById(R.id.textViewWelcome);
-            textView.setText(e.getMessage());
-        }
-    }
-
-    // blue button clicked
-    public void buttonDisplayAllPOIsClicked(View view)
-    {
-        try
-        {
-            Intent intent = new Intent(this, DisplayPOIs.class);
-            startActivity(intent);
-        }
-        catch (Exception e)
-        {
-            TextView textView = findViewById(R.id.textViewWelcome);
-            textView.setText(e.getMessage());
-        }
+        Intent intent = new Intent(this, ActivityAdd.class);
+        startActivity(intent);
     }
 }
 
