@@ -218,7 +218,7 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
                 // DO NOTHING.
             }
         });
-        
+
         builder.show();
     }
 }
