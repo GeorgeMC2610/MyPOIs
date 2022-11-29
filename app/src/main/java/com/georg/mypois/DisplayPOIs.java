@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,21 +23,16 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQueryTextListener
+public class DisplayPOIs extends AppCompatActivity
 {
-    TextView id, title, location, timeStamp, category, description, counter;
-    FloatingActionButton buttonPrevious, buttonNext;
-    ArrayList<POI> Pois;
-    SearchView searchPoiByTitle;
-    int index = 0;
+    TextView id, title, location, timeStamp, category, description;
+    int poi_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_pois);
-
-        Pois = MainActivity.poIsDatabaseManager.GetAllPois();
 
         //TextViews
         id = findViewById(R.id.id);
@@ -45,72 +41,25 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
         timeStamp = findViewById(R.id.Time);
         category = findViewById(R.id.Category);
         description = findViewById(R.id.Description);
-        counter = findViewById(R.id.Counter);
 
-        //Buttons
-        buttonPrevious = findViewById(R.id.buttonPrevious);
-        buttonNext = findViewById(R.id.buttonNext);
-
-        //SearchView
-        searchPoiByTitle = findViewById(R.id.searchPoiByTitle);
-        searchPoiByTitle.setOnQueryTextListener(this);
-
-        //Disable the "previous" button (since the starting index is 0).
-        buttonPrevious.setVisibility(FloatingActionButton.INVISIBLE);
-
-        //Disable the "next" button if the are no POIs available.
-        if (Pois.isEmpty())
-            buttonNext.setVisibility(FloatingActionButton.INVISIBLE);
-
-        UpdateLabels("");
+        GetSharedPreferences();
     }
 
-    // this method updates all labels once a button is clicked.
-    private void UpdateLabels(String query)
+    private void GetSharedPreferences()
     {
-        Pois = (query.isEmpty()? MainActivity.poIsDatabaseManager.GetAllPois() : MainActivity.poIsDatabaseManager.SearchPoiByTitle(query));
+        SharedPreferences sharedPref = getSharedPreferences("Main_Activity", Context.MODE_PRIVATE);
+        poi_id = sharedPref.getInt("POI_ID", 0);
 
-        // if there are no POIs available, it shows a message to the user.
-        if (index == 0 && Pois.isEmpty())
-        {
-            id.setText("---");
-            title.setText("No P.O.I.s found yet!");
-            location.setText("Go to the previous screen");
-            timeStamp.setText("in order to add a new P.O.I.");
-            category.setText("When you add a P.O.I.");
-            description.setText("It will show up here.");
-            counter.setText("No P.O.I.s.");
-            return;
-        }
+        POI poi = MainActivity.poIsDatabaseManager.GetPoiByID(poi_id);
 
-        // otherwise it shows all information about a POI.
-        id.setText(String.valueOf(Pois.get(index).getId()));
-        title.setText(Pois.get(index).getName());
-        location.setText("At: " + String.valueOf(Pois.get(index).getLatitude()) + ", " + String.valueOf(Pois.get(index).getLatitude()));
-        timeStamp.setText("Captured: " + Pois.get(index).getTimeStamp().toString());
-        category.setText(Pois.get(index).getCategory());
-        description.setText(Pois.get(index).getDescription());
-
-        counter.setText(String.valueOf(index + 1) + " out of " + String.valueOf(Pois.size()));
-
-        buttonPrevious.setVisibility((index == 0)? FloatingActionButton.INVISIBLE : FloatingActionButton.VISIBLE);
-        buttonNext.setVisibility((index == Pois.size() - 1)? FloatingActionButton.INVISIBLE : FloatingActionButton.VISIBLE);
-
+        id.setText(String.valueOf(poi.getId()));
+        title.setText(poi.getName());
+        location.setText(poi.getLatitude() + ", " + poi.getLongitude());
+        timeStamp.setText(poi.getTimeStamp().toString());
+        category.setText(poi.getCategory());
+        description.setText(poi.getDescription());
     }
 
-    // adjusting the index with the button. (Minus one)
-    public void buttonPreviousClicked(View view)
-    {
-        index--;
-        UpdateLabels("");
-    }
-
-    // adjusting the index with the button. (Plus one)
-    public void buttonNextClicked(View view)
-    {
-        index++;
-        UpdateLabels("");
-    }
 
     // this is called when the delete button is pressed.
     public void buttonDeleteClicked(View view)
@@ -126,17 +75,10 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
             public void onClick(DialogInterface dialogInterface, int i)
             {
                 // if the user agrees to delete the POI, find the POI using its ID and delete it.
-                MainActivity.poIsDatabaseManager.DeletePOI(Pois.get(index).getId());
-                // then update all POIs.
-                Pois = MainActivity.poIsDatabaseManager.GetAllPois();
+                MainActivity.poIsDatabaseManager.DeletePOI(poi_id);
 
-                // adjust the index if it's out of bounds.
-                if (Pois.isEmpty() || Pois.size() == 1)
-                    index = 0;
-                else if (index >= Pois.size())
-                    index = Pois.size() - 1;
-
-                UpdateLabels("");
+                Intent intent = new Intent(DisplayPOIs.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -209,7 +151,8 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
 
                 // if not, update the labels.
                 MainActivity.poIsDatabaseManager.EditPOI(edit_id, newTitle, newCategory, newDescription);
-                UpdateLabels("");
+
+                GetSharedPreferences();
             }
         });
 
@@ -226,24 +169,10 @@ public class DisplayPOIs extends AppCompatActivity implements SearchView.OnQuery
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s)
-    {
-        index = 0;
-        UpdateLabels(s);
-
-        return false;
-    }
-
-    @Override
     public void onBackPressed()
     {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }

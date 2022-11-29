@@ -35,9 +35,6 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         // get views.
         title = findViewById(R.id.editTextTitle);
         categoriesSpinner = findViewById(R.id.spinnerCategory);

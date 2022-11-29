@@ -136,6 +136,32 @@ public class POIsDatabaseManager
         return pois;
     }
 
+    // this returns a specific poi by its id.
+    public POI GetPoiByID(int id)
+    {
+        if (id == -1)
+            return null;
+
+        String query = "SELECT * FROM POIS WHERE id = '" + id + "';";
+        Cursor cursor = DB.rawQuery(query, null);
+
+        if (cursor.moveToNext())
+        {
+            int poi_id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String timeStamp = cursor.getString(2);
+            double latitude = cursor.getDouble(3);
+            double longitude = cursor.getDouble(4);
+            String category = cursor.getString(5);
+            String description = cursor.getString(6);
+
+            POI poi = new POI(poi_id, title, LocalDateTime.parse(timeStamp), latitude, longitude, category, description);
+            return poi;
+        }
+        else
+            return null;
+    }
+
     // this internal method generates a random id that doesn't exist in the database. Once it's created, it gets assigned to a POI.
     private int GenerateID()
     {

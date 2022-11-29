@@ -10,6 +10,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -71,6 +72,20 @@ public class MainActivity extends AppCompatActivity
             View view = inflater.inflate(R.layout.sample_poi_card, null);
 
             CardView cardView = view.findViewById(R.id.cardViewPOI);
+            cardView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    SharedPreferences sharedPreferences = getSharedPreferences("Main_Activity", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("POI_ID", poi.getId());
+                    editor.apply();
+
+                    Intent intent = new Intent(MainActivity.this, DisplayPOIs.class);
+                    startActivity(intent);
+                }
+            });
 
             // deconstruct the views
             TextView title = view.findViewById(R.id.poi_title);
