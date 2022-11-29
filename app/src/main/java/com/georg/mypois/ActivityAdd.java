@@ -195,5 +195,30 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
             return;
         }
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Fields Filled");
+        builder.setMessage("You have filled the fields with information. Are you sure you want to go back?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                Intent intent = new Intent(ActivityAdd.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                // DO NOTHING.
+            }
+        });
+        
+        builder.show();
     }
 }
