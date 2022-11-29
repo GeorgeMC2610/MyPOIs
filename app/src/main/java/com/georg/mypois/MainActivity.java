@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity
 
                     Intent intent = new Intent(MainActivity.this, DisplayPOIs.class);
                     startActivity(intent);
+                    finish();
                 }
             });
 
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, ActivityAdd.class);
         startActivity(intent);
+        finish();
     }
 
     private void DeletePOI(POI poi)

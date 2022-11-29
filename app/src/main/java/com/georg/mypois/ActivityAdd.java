@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -34,6 +35,9 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        // add back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // get views.
         title = findViewById(R.id.editTextTitle);
@@ -58,6 +62,18 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, POI.Categories); // this is retrieved from a static field.
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoriesSpinner.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                back();
+            default:
+                return true;
+        }
     }
 
     public void buttonInsertClicked(View view)
@@ -166,7 +182,18 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
     @Override
     public void onBackPressed()
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        back();
+    }
+
+    private void back()
+    {
+        if (title.getText().toString().isEmpty() && description.getText().toString().isEmpty())
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
     }
 }

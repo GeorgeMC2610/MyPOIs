@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -34,6 +35,9 @@ public class DisplayPOIs extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_pois);
 
+        // add back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //TextViews
         id = findViewById(R.id.id);
         title = findViewById(R.id.Title);
@@ -43,6 +47,20 @@ public class DisplayPOIs extends AppCompatActivity
         description = findViewById(R.id.Description);
 
         GetSharedPreferences();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            default:
+                return true;
+        }
     }
 
     private void GetSharedPreferences()
@@ -79,6 +97,7 @@ public class DisplayPOIs extends AppCompatActivity
 
                 Intent intent = new Intent(DisplayPOIs.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
