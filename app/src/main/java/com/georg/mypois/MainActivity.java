@@ -2,9 +2,11 @@ package com.georg.mypois;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,11 +57,20 @@ public class MainActivity extends AppCompatActivity
         POIS = poIsDatabaseManager.GetAllPois();
         scrollViewLayout.removeAllViews();
 
+        ScrollView scrollView = findViewById(R.id.scrollViewPois);
+        TextView textViewEmpty = findViewById(R.id.textViewEmpty);
+
+        // set the button or the scroll view to be invisible, according to the number of POIs available.
+        scrollView.setVisibility(POIS.isEmpty()? View.GONE : View.VISIBLE);
+        textViewEmpty.setVisibility(POIS.isEmpty()? View.VISIBLE : View.GONE);
+
         // create cards, each one containing a P.O.I.
         for (POI poi : POIS)
         {
             // inflate the layout
             View view = inflater.inflate(R.layout.sample_poi_card, null);
+
+            CardView cardView = view.findViewById(R.id.cardViewPOI);
 
             // deconstruct the views
             TextView title = view.findViewById(R.id.poi_title);
