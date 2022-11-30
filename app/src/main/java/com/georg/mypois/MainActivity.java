@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +32,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener
 {
     public static POIsDatabaseManager poIsDatabaseManager;
     private SQLiteDatabase DB;
+    SearchView searchViewPois;
     ArrayList<POI> POIS;
 
     @Override
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        searchViewPois = findViewById(R.id.SearchViewPOIs);
+        searchViewPois.setOnQueryTextListener(this);
 
         DB = openOrCreateDatabase("myPOIS.db", MODE_PRIVATE, null);
         poIsDatabaseManager = new POIsDatabaseManager(DB);
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        POIS = poIsDatabaseManager.GetAllPois();
+        //POIS = poIsDatabaseManager.GetAllPois();
         scrollViewLayout.removeAllViews();
 
         ScrollView scrollView = findViewById(R.id.scrollViewPois);
@@ -250,6 +255,27 @@ public class MainActivity extends AppCompatActivity
         });
 
         builder.show();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s)
+    {
+        if (s.isEmpty())
+        {
+            POIS = poIsDatabaseManager.GetAllPois();
+            CreatePOIcards();
+            return false;
+        }
+
+        POIS = poIsDatabaseManager.SearchPoiByTitle(s);
+        CreatePOIcards();
+        return false;
     }
 }
 
