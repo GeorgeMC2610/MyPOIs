@@ -22,14 +22,12 @@
 
             <TextView
                 android:id="@+id/poi_title"
-                android:layout_width="243dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="28sp"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8sp"
-                android:layout_marginEnd="1dp"
                 android:layout_marginBottom="8sp"
-                android:layout_toStartOf="@+id/buttonDelete"
                 android:text="Title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
