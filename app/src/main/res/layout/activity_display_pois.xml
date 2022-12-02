@@ -22,37 +22,23 @@
 
     <TextView
         android:id="@+id/Location"
-        android:layout_width="372dp"
-        android:layout_height="40dp"
+        android:layout_width="342dp"
+        android:layout_height="24dp"
         android:fontFamily="sans-serif-light"
         android:text="At: latitude, longitude"
         android:textAlignment="center"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/Time"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.153" />
-
-    <TextView
-        android:id="@+id/Title"
-        android:layout_width="295dp"
-        android:layout_height="43dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Title of P.O.I."
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintTop_toBottomOf="@+id/Title"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/Time"
-        android:layout_width="359dp"
-        android:layout_height="45dp"
+        android:layout_width="307dp"
+        android:layout_height="31dp"
         android:fontFamily="sans-serif-light"
         android:text="Captured: at time."
         android:textAlignment="center"
@@ -61,7 +47,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.214" />
+        app:layout_constraintVertical_bias="0.45" />
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="412dp"
+        android:layout_height="229dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Title of P.O.I."
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.124" />
 
     <TextView
         android:id="@+id/Category"

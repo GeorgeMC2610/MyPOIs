@@ -13,8 +13,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -130,21 +132,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             title.setText(poi.getName());
 
             boolean bigTitle = false;
-            title.measure(0, 0);
 
-            while (title.getMeasuredWidth() > 805)
+            title.setEllipsize(TextUtils.TruncateAt.END);
+
+            /*
+            while (statement)
             {
                 StringBuilder newTitle = new StringBuilder();
                 newTitle = newTitle.append(title.getText());
                 newTitle = newTitle.deleteCharAt(newTitle.length() - 1);
                 title.setText(newTitle.toString());
-                title.measure(0, 0);
                 bigTitle = true;
+
             }
+            */
 
             if (bigTitle)
                 title.setText(title.getText().toString() + "...");
-
 
             category.setText(poi.getCategory());
             datetime.setText(date);
