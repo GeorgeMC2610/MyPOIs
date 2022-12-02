@@ -135,6 +135,11 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
          }
     }
 
+    /**
+     * Creates a {@link POI} object and adds it to the Database, using the {@link POIsDatabaseManager} class.
+     * If any errors occur during this process, the program will display them in the description field.
+     * @return False if something goes wrong or True if nothing fails.
+     */
     private boolean addPoiToDatabase()
     {
         try
@@ -148,12 +153,16 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         }
         catch (Exception e)
         {
-            description.setText(e.getMessage());
+            description.setText(e.getLocalizedMessage());
             return false;
         }
     }
 
-    // function to check if there is any field empty
+    /**
+     * Internal function to check if there are any empty fields in the form.
+     * This function is used commonly
+     * @return
+     */
     private boolean isAnyEditTextEmpty()
     {
         title.setText(title.getText().toString().trim());
@@ -185,31 +194,50 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         back();
     }
 
+    /**
+     * Simple function that goes to the "previous" activity. Creates a new MainActivity object, so that it updates the P.O.I.s
+     * if the user added new ones.
+     */
+    private void GoToPreviousActivity()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Using an Alert Dialog, informs the user that they have filled fields and attempted to go back.
+     * The user can choose between <b>staying in the "Add P.O.I." form</b> or <b>leaving the form.</b>
+     * @see AlertDialog
+     */
     private void back()
     {
+
+        // if both edit texts are empty.
         if (title.getText().toString().isEmpty() && description.getText().toString().isEmpty())
         {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            // immediately go back.
+            GoToPreviousActivity();
             return;
         }
 
+        // otherwise, build an alert dialog and inform the user that there are filled fields.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Fields Filled");
         builder.setMessage("You have filled the fields with information. Are you sure you want to go back?");
+
+        // if the user agrees to go back, take them back to the previous activity.
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialogInterface, int i)
             {
-                Intent intent = new Intent(ActivityAdd.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                GoToPreviousActivity();
             }
         });
 
+        // if the user doesn't agree, do nothing.
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener()
         {
             @Override
