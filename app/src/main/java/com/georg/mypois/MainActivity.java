@@ -60,23 +60,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void CreatePOIcards()
     {
+        // this is to inflate all cards
         LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        //POIS = poIsDatabaseManager.GetAllPois();
+        // delete all cards before placing new ones
         scrollViewLayout.removeAllViews();
 
         ScrollView scrollView = findViewById(R.id.scrollViewPois);
         TextView textViewEmpty = findViewById(R.id.textViewEmpty);
+        TextView textViewHint = findViewById(R.id.textViewHint1);
 
         // set the button or the scroll view to be invisible, according to the number of POIs available.
         scrollView.setVisibility(POIS.isEmpty()? View.GONE : View.VISIBLE);
         textViewEmpty.setVisibility(POIS.isEmpty()? View.VISIBLE : View.GONE);
+        textViewHint.setVisibility(POIS.isEmpty()? View.GONE : View.VISIBLE);
 
         // create cards, each one containing a P.O.I.
         for (POI poi : POIS)
         {
-            // inflate the layout
+            // inflate each card the layout
             View view = inflater.inflate(R.layout.sample_poi_card, null);
 
             CardView cardView = view.findViewById(R.id.cardViewPOI);
