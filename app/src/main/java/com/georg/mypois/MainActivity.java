@@ -130,26 +130,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
             // set the values of the edit texts.
             title.setText(poi.getName());
-
-            boolean bigTitle = false;
-
-            title.setEllipsize(TextUtils.TruncateAt.END);
-
-            /*
-            while (statement)
-            {
-                StringBuilder newTitle = new StringBuilder();
-                newTitle = newTitle.append(title.getText());
-                newTitle = newTitle.deleteCharAt(newTitle.length() - 1);
-                title.setText(newTitle.toString());
-                bigTitle = true;
-
-            }
-            */
-
-            if (bigTitle)
-                title.setText(title.getText().toString() + "...");
-
             category.setText(poi.getCategory());
             datetime.setText(date);
 
