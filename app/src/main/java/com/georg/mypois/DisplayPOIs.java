@@ -70,10 +70,12 @@ public class DisplayPOIs extends AppCompatActivity
 
         POI poi = MainActivity.poIsDatabaseManager.GetPoiByID(poi_id);
 
+        String reasonableDateAndTime = poi.getTimeStamp().getDayOfMonth() + " " +  poi.getTimeStamp().getMonth().toString().charAt(0) + poi.getTimeStamp().getMonth().toString().substring(1).toLowerCase() + " " + poi.getTimeStamp().getYear() + " at " + poi.getTimeStamp().getHour() + ":" + (poi.getTimeStamp().getMinute() < 10? "0" + poi.getTimeStamp().getMinute() : poi.getTimeStamp().getMinute()) + ":" + (poi.getTimeStamp().getSecond() < 10? "0" + poi.getTimeStamp().getSecond() : poi.getTimeStamp().getSecond());
+
         id.setText(String.valueOf(poi.getId()));
         title.setText(poi.getName());
         location.setText(poi.getLatitude() + ", " + poi.getLongitude());
-        timeStamp.setText(poi.getTimeStamp().toString());
+        timeStamp.setText(reasonableDateAndTime);
         category.setText(poi.getCategory());
         description.setText(poi.getDescription());
     }
