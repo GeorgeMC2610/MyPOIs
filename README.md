@@ -21,3 +21,5 @@ The user must be able to perform at least the following actions:
 + Remove a P.O.I.
 + See All P.O.I.s
 + Search for a P.O.I.
+
+Since the application is using the phone's location to work, the students should use the right permission requests.
