@@ -36,8 +36,9 @@ public class ActivityAdd extends AppCompatActivity implements LocationListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        // add back button
+        // add back button and set custom title.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add A P.O.I.");
 
         // get views.
         title = findViewById(R.id.editTextTitle);

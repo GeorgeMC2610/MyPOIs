@@ -13,15 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Hashtable;
 
 public class DisplayPOIs extends AppCompatActivity
@@ -37,6 +32,7 @@ public class DisplayPOIs extends AppCompatActivity
 
         // add back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Details Of A P.O.I.");
 
         //TextViews
         id = findViewById(R.id.id);
@@ -46,12 +42,14 @@ public class DisplayPOIs extends AppCompatActivity
         category = findViewById(R.id.Category);
         description = findViewById(R.id.Description);
 
-        GetSharedPreferences();
+        // get the P.O.I. ID to display using Shared Preferences.
+        GetIdFromSharedPreferences();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        // when the user presses the back button, go back to the main menu (activity).
         switch (item.getItemId())
         {
             case android.R.id.home:
@@ -63,15 +61,19 @@ public class DisplayPOIs extends AppCompatActivity
         }
     }
 
-    private void GetSharedPreferences()
+    private void GetIdFromSharedPreferences()
     {
+        // get the shared preferences and save the POI ID.
         SharedPreferences sharedPref = getSharedPreferences("Main_Activity", Context.MODE_PRIVATE);
         poi_id = sharedPref.getInt("POI_ID", 0);
 
+        // search the POI from the database.
         POI poi = MainActivity.poIsDatabaseManager.GetPoiByID(poi_id);
 
+        // build a reasonable date to display.
         String reasonableDateAndTime = poi.getTimeStamp().getDayOfMonth() + " " +  poi.getTimeStamp().getMonth().toString().charAt(0) + poi.getTimeStamp().getMonth().toString().substring(1).toLowerCase() + " " + poi.getTimeStamp().getYear() + " at " + poi.getTimeStamp().getHour() + ":" + (poi.getTimeStamp().getMinute() < 10? "0" + poi.getTimeStamp().getMinute() : poi.getTimeStamp().getMinute()) + ":" + (poi.getTimeStamp().getSecond() < 10? "0" + poi.getTimeStamp().getSecond() : poi.getTimeStamp().getSecond());
 
+        // set all textviews to their corresponding name.
         id.setText(String.valueOf(poi.getId()));
         title.setText(poi.getName());
         location.setText(poi.getLatitude() + ", " + poi.getLongitude());
@@ -173,7 +175,7 @@ public class DisplayPOIs extends AppCompatActivity
                 // if not, update the labels.
                 MainActivity.poIsDatabaseManager.EditPOI(edit_id, newTitle, newCategory, newDescription);
 
-                GetSharedPreferences();
+                GetIdFromSharedPreferences();
             }
         });
 

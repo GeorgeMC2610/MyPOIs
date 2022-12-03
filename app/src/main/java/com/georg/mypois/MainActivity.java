@@ -3,24 +3,16 @@ package com.georg.mypois;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.text.Layout;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -31,7 +23,6 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -48,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setTitle("My P.O.I.s");
+
         searchViewPois = findViewById(R.id.SearchViewPOIs);
         searchViewPois.setOnQueryTextListener(this);
 
@@ -55,10 +48,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         poIsDatabaseManager = new POIsDatabaseManager(DB);
 
         POIS = poIsDatabaseManager.GetAllPois();
-        CreatePOIcards();
+        CreatePoiCards();
     }
 
-    private void CreatePOIcards()
+    /**
+     * Creates all the cards with {@link POI} objects.
+     * The cards can be pressed and show more details about a {@link POI} if so.
+     * Every card has two Buttons, button Delete and button Edit.
+     */
+    private void CreatePoiCards()
     {
         // this is to inflate all cards
         LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
@@ -166,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
                 // then update all POIs.
                 POIS = MainActivity.poIsDatabaseManager.GetAllPois();
-                CreatePOIcards();
+                CreatePoiCards();
             }
         });
 
@@ -239,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 // if not, update the labels.
                 MainActivity.poIsDatabaseManager.EditPOI(poi.getId(), newTitle, newCategory, newDescription);
                 POIS = poIsDatabaseManager.GetAllPois();
-                CreatePOIcards();
+                CreatePoiCards();
             }
         });
 
@@ -268,12 +266,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (s.isEmpty())
         {
             POIS = poIsDatabaseManager.GetAllPois();
-            CreatePOIcards();
+            CreatePoiCards();
             return false;
         }
 
         POIS = poIsDatabaseManager.SearchPoiByTitle(s);
-        CreatePOIcards();
+        CreatePoiCards();
         return false;
     }
 }
